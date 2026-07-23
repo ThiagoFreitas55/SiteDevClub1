@@ -447,7 +447,20 @@ function initGlowParticles() {
                     }
                 }
                 if (pts.length < 10) finish(generateFallbackPoints());
-                else finish(pts);
+                else {
+                    // Limite de segurança: em computadores/celulares mais
+                    // fracos, milhares de pontos com brilho aditivo derrubam
+                    // o FPS. Se passar de 6000, descarta pontos igualmente
+                    // espaçados pra manter a forma, só menos densa.
+                    const MAX_POINTS = 6000;
+                    if (pts.length > MAX_POINTS) {
+                        const keepRatio = MAX_POINTS / pts.length;
+                        const thinned = pts.filter((_, idx) => (idx * keepRatio) % 1 < keepRatio);
+                        finish(thinned);
+                    } else {
+                        finish(pts);
+                    }
+                }
             } catch (e) {
                 finish(generateFallbackPoints());
             }
@@ -525,9 +538,22 @@ function initGlowParticles() {
         isForming = true;
     }
 
+    let lastFrameTime = performance.now();
+
     function animate() {
         requestAnimationFrame(animate);
-        animationTime += 0.016;
+        const now = performance.now();
+        // Limita o "salto" de tempo (ex: aba fora de foco) pra não fazer a
+        // formação pular direto pro fim quando a aba volta a ficar ativa
+        const dt = Math.min((now - lastFrameTime) / 1000, 0.05);
+        lastFrameTime = now;
+        animationTime += dt;
+
+        // Fatores de suavização convertidos para independentes de FPS:
+        // equivalem a 0.05 e 0.18 por quadro a 60fps, mas continuam corretos
+        // em qualquer taxa de quadros (computador rápido ou lento).
+        const kForm = 1 - Math.pow(1 - 0.05, dt * 60);
+        const kAlive = 1 - Math.pow(1 - 0.18, dt * 60);
 
         if (geometry) {
             const pos = geometry.attributes.position.array;
@@ -536,8 +562,8 @@ function initGlowParticles() {
                 // Fase de formação: a chuva cai e se organiza na logo
                 for (let i = 0; i < particleCount; i++) {
                     const bx = base[i * 2], by = base[i * 2 + 1];
-                    pos[i * 3] += (bx - pos[i * 3]) * 0.05;
-                    pos[i * 3 + 1] += (by - pos[i * 3 + 1]) * 0.05;
+                    pos[i * 3] += (bx - pos[i * 3]) * kForm;
+                    pos[i * 3 + 1] += (by - pos[i * 3 + 1]) * kForm;
                 }
             } else {
                 isForming = false;
@@ -560,8 +586,8 @@ function initGlowParticles() {
                         }
                     }
 
-                    pos[i * 3] += (tx - pos[i * 3]) * 0.18;
-                    pos[i * 3 + 1] += (ty - pos[i * 3 + 1]) * 0.18;
+                    pos[i * 3] += (tx - pos[i * 3]) * kAlive;
+                    pos[i * 3 + 1] += (ty - pos[i * 3 + 1]) * kAlive;
                 }
             }
             geometry.attributes.position.needsUpdate = true;
