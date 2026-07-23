@@ -356,8 +356,8 @@ function initGlowParticles() {
         const cctx = c.getContext('2d');
         const grd = cctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
         grd.addColorStop(0, 'rgba(255,255,255,1)');
-        grd.addColorStop(0.25, 'rgba(150,255,190,0.95)');
-        grd.addColorStop(0.6, 'rgba(0,255,102,0.35)');
+        grd.addColorStop(0.35, 'rgba(150,255,190,1)');
+        grd.addColorStop(0.75, 'rgba(0,255,102,0.55)');
         grd.addColorStop(1, 'rgba(0,255,102,0)');
         cctx.fillStyle = grd;
         cctx.fillRect(0, 0, size, size);
@@ -433,7 +433,7 @@ function initGlowParticles() {
                 const sctx = sampleCanvas.getContext('2d');
                 sctx.drawImage(img, 0, 0, displaySize, displaySize);
                 const data = sctx.getImageData(0, 0, displaySize, displaySize).data;
-                const step = 4;
+                const step = 2;
                 const startX = width / 2 - displaySize / 2;
                 const startY = height / 2 - displaySize / 2;
                 const pts = [];
@@ -479,8 +479,8 @@ function initGlowParticles() {
             positions[i * 3 + 2] = 0;
             phase[i] = Math.random() * Math.PI * 2;
             speed[i] = 0.6 + Math.random() * 1.1;
-            amp[i * 2] = 1.5 + Math.random() * 2.5;
-            amp[i * 2 + 1] = 1.5 + Math.random() * 2.5;
+            amp[i * 2] = 0.6 + Math.random() * 1.2;
+            amp[i * 2 + 1] = 0.6 + Math.random() * 1.2;
             sizes[i] = 8 + Math.random() * 5;
             const b = 0.75 + Math.random() * 0.25;
             colors[i * 3] = 0.5 * b;
@@ -499,7 +499,7 @@ function initGlowParticles() {
         if (!material) {
             material = new THREE.PointsMaterial({
                 map: glowTexture,
-                size: 11,
+                size: 12,
                 transparent: true,
                 depthWrite: false,
                 blending: THREE.AdditiveBlending,
