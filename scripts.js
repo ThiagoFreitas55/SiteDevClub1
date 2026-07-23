@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Criação das partículas
     const particlesContainer = document.getElementById('particles');
-
+ 
     function createParticle() {
         const particle = document.createElement('div');
         particle.style.position = 'absolute';
@@ -10,27 +10,27 @@ document.addEventListener('DOMContentLoaded', function () {
         particle.style.background = '#00ff66';
         particle.style.boxShadow = '0 0 10px #00ff66, 0 0 20px #00ff66';
         particle.style.borderRadius = '50%';
-
+ 
         // Posição inicial aleatória
         const x = Math.random() * window.innerWidth;
         const y = Math.random() * window.innerHeight;
         particle.style.left = `${x}px`;
         particle.style.top = `${y}px`;
-
+ 
         // Animação
         particle.style.animation = `float ${Math.random() * 3 + 2}s linear infinite`;
-
+ 
         particlesContainer.appendChild(particle);
-
+ 
         // Remove a partícula após a animação
         setTimeout(() => {
             particle.remove();
         }, 5000);
     }
-
+ 
     // Cria partículas periodicamente
     setInterval(createParticle, 50);
-
+ 
     // Efeito de scroll suave
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-
+ 
 // Adiciona animação CSS para as partículas
 const style = document.createElement('style');
 style.textContent = `
@@ -60,17 +60,17 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
+ 
 // Menu Hambúrguer
 const menuToggle = document.querySelector('.menu-toggle');
 const navList = document.querySelector('nav ul');
 const navLinks = document.querySelectorAll('nav ul li a');
-
+ 
 menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
     navList.classList.toggle('active');
 });
-
+ 
 // Fecha o menu ao clicar em um link
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
@@ -78,7 +78,7 @@ navLinks.forEach(link => {
         navList.classList.remove('active');
     });
 });
-
+ 
 // Fecha o menu ao clicar fora
 document.addEventListener('click', (e) => {
     if (!navList.contains(e.target) && !menuToggle.contains(e.target)) {
@@ -86,7 +86,7 @@ document.addEventListener('click', (e) => {
         navList.classList.remove('active');
     }
 });
-
+ 
 // Atualiza partículas ao redimensionar a janela
 let resizeTimeout;
 window.addEventListener('resize', () => {
@@ -96,35 +96,35 @@ window.addEventListener('resize', () => {
         particles.forEach(particle => particle.remove());
     }, 250);
 });
-
+ 
 // Carousel
 document.addEventListener('DOMContentLoaded', function () {
     const track = document.querySelector('.carousel-track');
     const cards = document.querySelectorAll('.project-card');
     const prevButton = document.querySelector('.prev');
     const nextButton = document.querySelector('.next');
-
+ 
     if (!track || !cards.length) return;
-
+ 
     let currentIndex = 0;
     let cardWidth = cards[0].offsetWidth + 32;
     let cardsPerView = window.innerWidth > 768 ? 3 : 1;
-
+ 
     // Anima entrada dos cards
     cards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
     });
-
+ 
     function updateCarousel() {
         track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
     }
-
+ 
     function updateButtons() {
         if (prevButton) prevButton.style.display = currentIndex === 0 ? 'none' : 'block';
         if (nextButton) nextButton.style.display =
             currentIndex >= cards.length - cardsPerView ? 'none' : 'block';
     }
-
+ 
     if (prevButton) {
         prevButton.addEventListener('click', () => {
             currentIndex = Math.max(currentIndex - 1, 0);
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateButtons();
         });
     }
-
+ 
     if (nextButton) {
         nextButton.addEventListener('click', () => {
             currentIndex = Math.min(currentIndex + 1, cards.length - cardsPerView);
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateButtons();
         });
     }
-
+ 
     // Atualiza em caso de redimensionamento
     window.addEventListener('resize', () => {
         cardWidth = cards[0].offsetWidth + 32;
@@ -149,11 +149,11 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCarousel();
         updateButtons();
     });
-
+ 
     // Inicializa
     updateButtons();
 });
-
+ 
 // Chat AI
 class ChatBot {
     constructor() {
@@ -163,7 +163,7 @@ class ChatBot {
         this.chatMessages = document.querySelector('.chat-messages');
         this.chatInput = document.querySelector('.chat-input');
         this.sendButton = document.querySelector('.send-message');
-
+ 
         this.inactivityTimeout = null;
         this.names = ['Ana', 'Bruno', 'Carla', 'Diego', 'Fernanda', 'Rafael'];
         this.currentName = this.getRandomName();
@@ -171,15 +171,15 @@ class ChatBot {
         this.initializeChat();
         this.addEventListeners();
     }
-
+ 
     getRandomName() {
         return this.names[Math.floor(Math.random() * this.names.length)];
     }
-
+ 
     initializeChat() {
         this.addMessage(`Olá! Me chamo ${this.currentName}, sou o assistente virtual da DevClub. Em que posso ajudar você hoje?`, 'bot');
     }
-
+ 
     addEventListeners() {
         this.chatToggle.addEventListener('click', () => {
             this.toggleChat();
@@ -198,86 +198,86 @@ class ChatBot {
             }
         });
     }
-
+ 
     toggleChat() {
         this.chatContainer.classList.toggle('active');
         if (this.chatContainer.classList.contains('active')) {
             this.chatInput.focus();
         }
     }
-
+ 
     addMessage(text, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('message', sender);
-
+ 
         const messageContent = document.createElement('div');
         messageContent.classList.add('message-content');
         messageContent.textContent = text;
         messageDiv.appendChild(messageContent);
-
+ 
         this.chatMessages.appendChild(messageDiv);
         this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
     }
-
+ 
     async handleUserMessage() {
         const message = this.chatInput.value.trim();
         if (!message) return;
-
+ 
         this.addMessage(message, 'user');
         this.chatInput.value = '';
-
+ 
         this.clearInactivityTimeout();
         this.setInactivityTimeout(3 * 60 * 1000);
-
+ 
         await this.simulateTyping();
         const response = this.processResponse(message);
         this.addMessage(response, 'bot');
     }
-
+ 
     async simulateTyping() {
         return new Promise(resolve => {
             setTimeout(resolve, Math.random() * 1000 + 500);
         });
     }
-
+ 
     processResponse(message) {
         const lowerMessage = message.toLowerCase();
-
+ 
         if (lowerMessage.includes('oi') || lowerMessage.includes('olá') || lowerMessage.includes('e aí')) {
             return `Oi! Tudo bem? Sou ${this.currentName} da DevClub. Como posso te ajudar?`;
         }
-
+ 
         if (lowerMessage.includes('cursos') || lowerMessage.includes('curso')) {
             return 'Oferecemos cursos em Desenvolvimento Web, Python, Data Science e muito mais! Qual área te interessa?';
         }
-
+ 
         if (lowerMessage.includes('matricul') || lowerMessage.includes('inscrição')) {
             return 'Para se matricular, clique no botão "Faça sua matrícula" no topo da página ou entre em contato conosco!';
         }
-
+ 
         if (lowerMessage.includes('preço') || lowerMessage.includes('valor') || lowerMessage.includes('cust')) {
             return 'Nossos preços são competitivos! Entre em contato através do formulário para detalhes específicos.';
         }
-
+ 
         if (lowerMessage.includes('contato') || lowerMessage.includes('email') || lowerMessage.includes('telefone')) {
             return 'Você pode encontrar nossos contatos na seção de Contato. Também estamos disponíveis via WhatsApp!';
         }
-
+ 
         if (lowerMessage.includes('equipe') || lowerMessage.includes('professores') || lowerMessage.includes('instrutor')) {
             return 'Nossa equipe é composta por profissionais experientes. Veja a seção Liderança para conhecer melhor!';
         }
-
+ 
         if (lowerMessage.includes('obrigad') || lowerMessage.includes('valeu') || lowerMessage.includes('thanks')) {
             return 'De nada! Fico feliz em ajudar. Tem mais alguma dúvida?';
         }
-
+ 
         if (lowerMessage.includes('tchau') || lowerMessage.includes('adeus') || lowerMessage.includes('até')) {
             return 'Até logo! Volte sempre que precisar! 👋';
         }
-
+ 
         return 'Entendi sua pergunta! Para mais informações específicas, confira as seções do site ou entre em contato conosco!';
     }
-
+ 
     setInactivityTimeout() {
         this.clearInactivityTimeout();
         this.inactivityTimeout = setTimeout(() => {
@@ -285,7 +285,7 @@ class ChatBot {
             this.toggleChat();
         }, 3 * 60 * 1000);
     }
-
+ 
     clearInactivityTimeout() {
         if (this.inactivityTimeout) {
             clearTimeout(this.inactivityTimeout);
@@ -293,23 +293,23 @@ class ChatBot {
         }
     }
 }
-
+ 
 // Inicializa o chat quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
     new ChatBot();
 });
-
+ 
 // Efeitos adicionais
 document.querySelectorAll('nav ul li a').forEach(link => {
     link.addEventListener('mouseenter', (e) => {
         e.target.style.color = '#00ff66';
     });
-
+ 
     link.addEventListener('mouseleave', (e) => {
         e.target.style.color = '#ffffff';
     });
 });
-
+ 
 // Shuffle projects
 function shuffleProjects() {
     const carouselTrack = document.querySelector('.carousel-track');
@@ -326,28 +326,28 @@ function shuffleProjects() {
         carouselTrack.appendChild(card);
     });
 }
-
+ 
 document.addEventListener('DOMContentLoaded', function() {
     shuffleProjects();
 });
-
+ 
 // Glow particles animation with logo formation effect
 // Glow particles animation (three.js) with logo formation + mouse interaction
 function initGlowParticles() {
     const canvas = document.getElementById('glow-particles');
     if (!canvas || typeof THREE === 'undefined') return;
-
+ 
     let width = window.innerWidth;
     let height = window.innerHeight;
-
+ 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, 0.1, 1000);
     camera.position.z = 100;
-
+ 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(width, height, false);
-
+ 
     // Textura de brilho (glow) circular gerada em canvas 2D
     function makeGlowTexture() {
         const size = 128;
@@ -355,16 +355,16 @@ function initGlowParticles() {
         c.width = c.height = size;
         const cctx = c.getContext('2d');
         const grd = cctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-        grd.addColorStop(0, 'rgba(200,255,220,1)');
-        grd.addColorStop(0.5, 'rgba(60,255,140,1)');
-        grd.addColorStop(0.85, 'rgba(0,255,102,0.45)');
-        grd.addColorStop(1, 'rgba(0,255,102,0)');
+        grd.addColorStop(0, 'rgba(210,255,190,1)');
+        grd.addColorStop(0.5, 'rgba(40,255,110,1)');
+        grd.addColorStop(0.85, 'rgba(0,255,80,0.45)');
+        grd.addColorStop(1, 'rgba(0,255,80,0)');
         cctx.fillStyle = grd;
         cctx.fillRect(0, 0, size, size);
         return new THREE.CanvasTexture(c);
     }
     const glowTexture = makeGlowTexture();
-
+ 
     let geometry = null;
     let material = null;
     let points = null;
@@ -373,20 +373,20 @@ function initGlowParticles() {
     let phase = null;
     let speed = null;
     let amp = null;
-
+ 
     let animationTime = 0;
     let isForming = true;
     const FORMATION_DURATION = 3.2;
-
+ 
     const mouse = { x: 999999, y: 999999, active: false };
     const REPEL_RADIUS = 95;
     const REPEL_STRENGTH = 50;
-
+ 
     // Converte coordenadas de tela (px, py) para o espaço do mundo do three.js
     function toWorld(px, py) {
         return { x: px - width / 2, y: -(py - height / 2) };
     }
-
+ 
     // Fallback (caso a imagem da logo não carregue): contorno simples
     function generateFallbackPoints() {
         const pts = [];
@@ -404,7 +404,7 @@ function initGlowParticles() {
         }
         return pts;
     }
-
+ 
     // Amostra os pixels reais do logo.png (mesmo arquivo do menu) para que
     // a chuva de partículas se condense na logo de verdade
     function generateLogoPoints(callback) {
@@ -413,7 +413,7 @@ function initGlowParticles() {
             callback(generateFallbackPoints());
             return;
         }
-
+ 
         let done = false;
         const finish = (pts) => {
             if (done) return;
@@ -421,7 +421,7 @@ function initGlowParticles() {
             callback(pts);
         };
         const safety = setTimeout(() => finish(generateFallbackPoints()), 1200);
-
+ 
         const img = new Image();
         img.onload = () => {
             clearTimeout(safety);
@@ -458,7 +458,7 @@ function initGlowParticles() {
         };
         img.src = logoImgEl.src;
     }
-
+ 
     function buildParticles(homePts) {
         particleCount = homePts.length;
         const positions = new Float32Array(particleCount * 3);
@@ -468,7 +468,7 @@ function initGlowParticles() {
         amp = new Float32Array(particleCount * 2);
         const sizes = new Float32Array(particleCount);
         const colors = new Float32Array(particleCount * 3);
-
+ 
         for (let i = 0; i < particleCount; i++) {
             const home = homePts[i];
             base[i * 2] = home.x;
@@ -483,11 +483,11 @@ function initGlowParticles() {
             amp[i * 2 + 1] = 0.6 + Math.random() * 1.2;
             sizes[i] = 8 + Math.random() * 5;
             const b = 0.75 + Math.random() * 0.25;
-            colors[i * 3] = 0.12 * b;
+            colors[i * 3] = 0.1 * b;
             colors[i * 3 + 1] = b;
-            colors[i * 3 + 2] = 0.35 * b;
+            colors[i * 3 + 2] = 0.12 * b;
         }
-
+ 
         if (points) {
             scene.remove(points);
             geometry.dispose();
@@ -495,7 +495,7 @@ function initGlowParticles() {
         geometry = new THREE.BufferGeometry();
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
+ 
         if (!material) {
             material = new THREE.PointsMaterial({
                 map: glowTexture,
@@ -510,7 +510,7 @@ function initGlowParticles() {
         points = new THREE.Points(geometry, material);
         scene.add(points);
     }
-
+ 
     // Reinicia a formação (usado no clique): espalha e faz cair de novo
     function replayFormation() {
         if (!geometry) return;
@@ -524,14 +524,14 @@ function initGlowParticles() {
         animationTime = 0;
         isForming = true;
     }
-
+ 
     function animate() {
         requestAnimationFrame(animate);
         animationTime += 0.016;
-
+ 
         if (geometry) {
             const pos = geometry.attributes.position.array;
-
+ 
             if (animationTime < FORMATION_DURATION && isForming) {
                 // Fase de formação: a chuva cai e se organiza na logo
                 for (let i = 0; i < particleCount; i++) {
@@ -548,7 +548,7 @@ function initGlowParticles() {
                     const t = animationTime * speed[i] + phase[i];
                     let tx = bx + Math.sin(t) * amp[i * 2];
                     let ty = by + Math.cos(t * 0.85) * amp[i * 2 + 1];
-
+ 
                     if (mouse.active) {
                         const dx = tx - mouse.x;
                         const dy = ty - mouse.y;
@@ -559,20 +559,20 @@ function initGlowParticles() {
                             ty += (dy / dist) * force;
                         }
                     }
-
+ 
                     pos[i * 3] += (tx - pos[i * 3]) * 0.18;
                     pos[i * 3 + 1] += (ty - pos[i * 3 + 1]) * 0.18;
                 }
             }
             geometry.attributes.position.needsUpdate = true;
         }
-
+ 
         renderer.render(scene, camera);
     }
-
+ 
     let lastWidth = window.innerWidth;
     let resizeDebounce = null;
-
+ 
     function onResize() {
         width = window.innerWidth;
         height = window.innerHeight;
@@ -583,14 +583,14 @@ function initGlowParticles() {
         camera.updateProjectionMatrix();
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setSize(width, height, false);
-
+ 
         // No celular, a barra de endereço aparece/some ao rolar a tela e isso
         // dispara "resize" o tempo todo mudando só a altura. Isso não deve
         // recalcular a logo (só reposicionar em mudanças reais de largura),
         // senão os pontos ficam trocados de lugar e a logo "esparrama".
         const widthChanged = Math.abs(width - lastWidth) > 60;
         if (!widthChanged) return;
-
+ 
         clearTimeout(resizeDebounce);
         resizeDebounce = setTimeout(() => {
             lastWidth = width;
@@ -606,7 +606,7 @@ function initGlowParticles() {
             }
         }, 250);
     }
-
+ 
     function onPointerMove(e) {
         const rect = canvas.getBoundingClientRect();
         const px = e.clientX - rect.left;
@@ -619,12 +619,12 @@ function initGlowParticles() {
     function onPointerLeave() {
         mouse.active = false;
     }
-
+ 
     generateLogoPoints((pts) => {
         buildParticles(pts);
         animate();
     });
-
+ 
     // A cada clique na área inicial, a chuva "embaralha" e forma a logo de
     // novo (o canvas tem pointer-events:none, então escutamos na seção pai)
     const homeSection = canvas.closest('section') || canvas.parentElement;
@@ -633,5 +633,6 @@ function initGlowParticles() {
     window.addEventListener('mouseleave', onPointerLeave);
     window.addEventListener('resize', onResize);
 }
-
+ 
 document.addEventListener('DOMContentLoaded', initGlowParticles);
+ 
