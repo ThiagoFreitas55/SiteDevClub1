@@ -356,8 +356,8 @@ function initGlowParticles() {
         const cctx = c.getContext('2d');
         const grd = cctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
         grd.addColorStop(0, 'rgba(255,255,255,1)');
-        grd.addColorStop(0.35, 'rgba(150,255,190,1)');
-        grd.addColorStop(0.75, 'rgba(0,255,102,0.55)');
+        grd.addColorStop(0.5, 'rgba(150,255,190,1)');
+        grd.addColorStop(0.85, 'rgba(0,255,102,0.4)');
         grd.addColorStop(1, 'rgba(0,255,102,0)');
         cctx.fillStyle = grd;
         cctx.fillRect(0, 0, size, size);
@@ -499,7 +499,7 @@ function initGlowParticles() {
         if (!material) {
             material = new THREE.PointsMaterial({
                 map: glowTexture,
-                size: 12,
+                size: 9,
                 transparent: true,
                 depthWrite: false,
                 blending: THREE.AdditiveBlending,
@@ -570,6 +570,9 @@ function initGlowParticles() {
         renderer.render(scene, camera);
     }
 
+    let lastWidth = window.innerWidth;
+    let resizeDebounce = null;
+
     function onResize() {
         width = window.innerWidth;
         height = window.innerHeight;
@@ -580,15 +583,28 @@ function initGlowParticles() {
         camera.updateProjectionMatrix();
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setSize(width, height, false);
-        // Recentraliza a logo quando a janela muda de tamanho
-        if (particleCount) {
-            generateLogoPoints((pts) => {
-                for (let i = 0; i < particleCount && i < pts.length; i++) {
-                    base[i * 2] = pts[i].x;
-                    base[i * 2 + 1] = pts[i].y;
-                }
-            });
-        }
+
+        // No celular, a barra de endereço aparece/some ao rolar a tela e isso
+        // dispara "resize" o tempo todo mudando só a altura. Isso não deve
+        // recalcular a logo (só reposicionar em mudanças reais de largura),
+        // senão os pontos ficam trocados de lugar e a logo "esparrama".
+        const widthChanged = Math.abs(width - lastWidth) > 60;
+        if (!widthChanged) return;
+
+        clearTimeout(resizeDebounce);
+        resizeDebounce = setTimeout(() => {
+            lastWidth = width;
+            if (particleCount) {
+                generateLogoPoints((pts) => {
+                    // Reconstrói as partículas do zero (com a contagem nova
+                    // de pontos) em vez de tentar remapear pelo índice, que
+                    // é o que causava a bagunça.
+                    buildParticles(pts);
+                    animationTime = 0;
+                    isForming = true;
+                });
+            }
+        }, 250);
     }
 
     function onPointerMove(e) {
