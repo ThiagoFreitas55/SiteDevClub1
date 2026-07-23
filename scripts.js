@@ -355,9 +355,9 @@ function initGlowParticles() {
         c.width = c.height = size;
         const cctx = c.getContext('2d');
         const grd = cctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-        grd.addColorStop(0, 'rgba(255,255,255,1)');
-        grd.addColorStop(0.5, 'rgba(150,255,190,1)');
-        grd.addColorStop(0.85, 'rgba(0,255,102,0.4)');
+        grd.addColorStop(0, 'rgba(200,255,220,1)');
+        grd.addColorStop(0.5, 'rgba(60,255,140,1)');
+        grd.addColorStop(0.85, 'rgba(0,255,102,0.45)');
         grd.addColorStop(1, 'rgba(0,255,102,0)');
         cctx.fillStyle = grd;
         cctx.fillRect(0, 0, size, size);
@@ -483,9 +483,9 @@ function initGlowParticles() {
             amp[i * 2 + 1] = 0.6 + Math.random() * 1.2;
             sizes[i] = 8 + Math.random() * 5;
             const b = 0.75 + Math.random() * 0.25;
-            colors[i * 3] = 0.5 * b;
+            colors[i * 3] = 0.12 * b;
             colors[i * 3 + 1] = b;
-            colors[i * 3 + 2] = 0.6 * b;
+            colors[i * 3 + 2] = 0.35 * b;
         }
 
         if (points) {
