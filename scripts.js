@@ -28,8 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     }
 
-    // Cria partículas periodicamente
-    setInterval(createParticle, 50);
+    // Cria partículas periodicamente (menos partículas em telas pequenas/celulares
+    // para evitar travamentos, já que o efeito 3D do herói já consome bastante processamento)
+    const isSmallScreen = window.innerWidth <= 768;
+    setInterval(createParticle, isSmallScreen ? 160 : 50);
 
     // Efeito de scroll suave
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

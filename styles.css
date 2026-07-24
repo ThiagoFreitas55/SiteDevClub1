@@ -183,6 +183,8 @@ nav a:hover {
 }
 
 .glow-particles {
+  width: 100vw;
+  height: 100vh;
   position: absolute;
   top: 0;
   right: 0;
@@ -213,10 +215,14 @@ nav a:hover {
 }
 
 .about-text {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 900px;
+  margin: 0 auto 1.25rem;
   font-weight: bold;
   font-size: 1.1rem;
+}
+
+.about-text:last-child {
+  margin-bottom: 0;
 }
 
 h2 {
@@ -314,22 +320,24 @@ h2 {
 
 .highlights-grid {
   display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   margin: 0 auto;
   justify-content: center;
-  flex-direction: center;
   align-items: center;
-  justify-content: center;
-
+  max-width: 1200px;
 }
 
 .highlight-item {
- 
   width: 230px;
   height: 230px;
   padding: 2rem 1.5rem;
   background: var(--accent-color);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .highlight-item h3 {
@@ -959,9 +967,40 @@ footer {
   to { transform: translateY(0); opacity: 1; }
 }
 
+@media (max-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
+  }
+
+  .highlights-grid {
+    gap: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .menu-toggle {
     display: flex;
+  }
+
+  .hero,
+  .hero1 {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    padding: 6rem 1.5rem 3rem;
+    overflow: hidden;
+  }
+
+  nav {
+    padding: 0 0.5rem;
+  }
+
+  .logo img {
+    width: 80px;
   }
 
   nav ul {
@@ -987,6 +1026,15 @@ footer {
     padding: 0 20px;
   }
 
+  .students-marquee {
+    width: 90%;
+  }
+
+  .about-text {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+
   .contact-container {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -997,18 +1045,45 @@ footer {
   }
 
   .carousel-container {
-    padding: 0 20px;
+    padding: 0 45px;
+  }
+
+  .carousel-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .prev { left: 0; }
+  .next { right: 0; }
+
+  .highlights-grid {
+    gap: 15px;
+  }
+
+  .highlight-item {
+    width: 45%;
+    height: auto;
+    min-height: 180px;
+    padding: 1.5rem 1rem;
   }
 
   .courses-track .service-card {
     flex-basis: 220px;
     min-height: 200px;
   }
+
+  h2 {
+    font-size: 2rem;
+  }
 }
 
 @media (max-width: 480px) {
   header {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .logo img {
+    width: 65px;
   }
 
   .hero-content h1 {
@@ -1018,23 +1093,62 @@ footer {
   .services h2,
   .contact h2,
   .projects h2,
-  .team h2 {
-    font-size: 2rem;
+  .team h2,
+  .about h2 {
+    font-size: 1.8rem;
   }
 
   .contact-form,
   .about-content,
   .services,
   .projects,
-  .team {
+  .team,
+  .highlights {
     padding-left: 1rem;
     padding-right: 1rem;
   }
 
+  .highlight-item {
+    width: 100%;
+    min-height: 140px;
+  }
+
+  .carousel-container {
+    padding: 0 38px;
+  }
+
+  .contact-form {
+    padding: 1.25rem;
+  }
+
+  .chat-widget {
+    bottom: 15px;
+    right: 15px;
+  }
+
   .chat-container {
-    width: calc(100% - 40px);
-    height: calc(100% - 100px);
+    width: calc(100vw - 30px);
+    right: 15px;
+    height: calc(100vh - 140px);
     bottom: 80px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-content h1 {
+    font-size: 1.7rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .students-marquee {
+    width: 100%;
+  }
+
+  nav ul {
+    width: 85%;
   }
 }
 
